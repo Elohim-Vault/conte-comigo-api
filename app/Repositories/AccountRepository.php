@@ -3,6 +3,7 @@
 
 namespace App\Repositories;
 use App\Models\Account;
+use App\Models\Expense;
 use App\Models\Gain;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -11,35 +12,36 @@ class AccountRepository
 {
     private $model;
 
+
     public function __construct(Account $model)
     {
         $this->model = $model;
+
+    }
+
+    public function getAll()
+    {
+        return User::find(Auth::id())->accounts;
     }
 
     public function create(array $data)
     {
-        $this->model->create($data);
+        $data["user_id"] = Auth::id();
+        return $this->model->create($data);
     }
 
-    public function newGain(array $data)
+    public function increment($value)
     {
-        $gain = $data['value'];
-//        if(!isset($data['account']))
-//        {
-//            $data['account'] = 'Sua conta';
-//        }
-
-        $account = User::find(Auth::id())->accounts->firstWhere('nickname',$data['account']);
-
-
-        $account->increment('value', $gain);
+        $account = User::find(Auth::id())->account;
+        $account->increment('value', $value);
         return $account;
     }
 
-    public function destroyGain(Gain $gain, $account)
+    public function decrement($value)
     {
-        $userAccount = User::find(Auth::id())->accounts->firstWhere('nickname', $account);
-        $userAccount->decrement('value', $gain->value);
-        return $userAccount;
+        $account = User::find(Auth::id())->account;
+        $account->decrement('value', $value);
+        return $account;
     }
+
 }

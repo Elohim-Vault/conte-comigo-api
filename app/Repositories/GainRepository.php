@@ -25,22 +25,22 @@ class GainRepository
         return Auth::user()->gains;
     }
 
+    public function paginate() {
+        return $this->model->where('user_id', '=', User::id())->simplePaginate();
+    }
     public function create(array $data)
     {
 
         $data["user_id"] = Auth::id();
-        $accountData = $this->accountRepository->newGain($data);
+        $accountData = $this->accountRepository->increment($data['value']);
         $gainData = $this->model->create($data);
 
-        return response()->json([
-            "account" => $accountData,
-            "gain" => $gainData
-        ],201);
+        return collect(["account" => $accountData, "gain" => $gainData]);
     }
 
-    public function destroy($gain, $account)
+    public function destroy($gain)
     {
-        $newBalance = $this->accountRepository->destroyGain($gain, $account);
+        $newBalance = $this->accountRepository->decrement($gain->value);
         $gain->delete();
         return $newBalance;
     }

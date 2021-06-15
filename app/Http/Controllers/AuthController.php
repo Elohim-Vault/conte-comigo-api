@@ -27,11 +27,6 @@ class AuthController extends Controller
 
         $token = $user->createToken('myapptoken')->plainTextToken;
 
-        $accountRepository->create([
-            "user_id" => $user->id,
-            "nickname" => "Sua conta"
-        ]);
-
         return response()->json(['user' => $user, 'token' => $token], 201);
     }
 
@@ -51,6 +46,9 @@ class AuthController extends Controller
             ]);
         }
 
-        return $user->createToken('myapptoken')->plainTextToken;
+        return response()->json([
+            'user' => $user,
+            'token' => $user->createToken('myapptoken')->plainTextToken
+        ], 200);
     }
 }

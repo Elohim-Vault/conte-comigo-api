@@ -66,11 +66,16 @@ class GainController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Gain  $gain
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Gain $gain, Request $request)
+    public function destroy(Gain $gain)
     {
-        $result = $this->gainRepository->destroy($gain, $request->account);
+        $result = $this->gainRepository->destroy($gain);
         return response()->json($result, 200);
+    }
+
+    public function weeklyEarnings()
+    {
+        dd(date('Y-m-d'));
     }
 }

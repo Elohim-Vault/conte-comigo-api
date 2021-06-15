@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueNickname;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreGainRequest extends FormRequest
+class StoreAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +25,7 @@ class StoreGainRequest extends FormRequest
     public function rules()
     {
         return [
-            'value' => ['required', 'gt:0'],
-            'description' => 'required'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'value.required' => "O valor é obrigatório.",
-            'description.required' => 'A descrição é obrigatória.',
-            'value.gt' => "O valor do ganho precisa ser maior do que 0."
+            'nickname' => [new UniqueNickname()],
         ];
     }
 }

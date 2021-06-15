@@ -2,40 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAccountRequest;
 use App\Models\Account;
+use App\Repositories\AccountRepository;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+
+    /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
+
+
+    public function __construct(AccountRepository $accountRepository)
+    {
+        $this->accountRepository = $accountRepository;
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        return response()->json($this->accountRepository->getAll(), 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreAccountRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $account = $this->accountRepository->create($request->all());
+        return response()->json($account, 201);
     }
 
     /**
@@ -45,17 +50,6 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Account  $account
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Account $account)
     {
         //
     }

@@ -17,7 +17,7 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users");
             $table->float("value")->default(0);
-            $table->string("nickname");
+            $table->string("nickname")->unique();
         });
     }
 
