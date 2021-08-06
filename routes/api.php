@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ExpensesController;
-use App\Http\Controllers\GainController;
 use App\Http\Controllers\GoalController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionController;
 
@@ -21,9 +18,6 @@ use App\Http\Controllers\TransactionController;
 */
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::apiResource('gains', GainController::class);
-    Route::apiResource('expenses', ExpensesController::class);
-//    Route::get('transactions/{pagination}', [AccountController::class, 'last_transactions']);
     Route::apiResource('transactions', TransactionController::class);
     Route::apiResource('accounts', AccountController::class);
     Route::apiResource('goals', GoalController::class);
