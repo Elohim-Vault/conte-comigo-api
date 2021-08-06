@@ -47,13 +47,13 @@ class User extends Authenticatable
         return $this->hasOne(Account::class);
     }
 
-    public function gains()
+    public function transactions()
     {
-        return $this->hasMany(Gain::class);
+        return $this->hasMany(Transaction::class);
     }
 
-    public function expenses()
+    public function goals()
     {
-        return $this->hasMany(Expense::class);
+        return $this->hasMany(Goal::class);
     }
 }

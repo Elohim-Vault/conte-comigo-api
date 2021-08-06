@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goal;
+use App\Repositories\GoalRepository;
 use Illuminate\Http\Request;
 
 class GoalController extends Controller
 {
+    private $goalRepository;
+
+    public function __construct(GoalRepository $goalRepository) {
+        $this->goalRepository = $goalRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +20,9 @@ class GoalController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json($this->goalRepository->paginate(5), 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +32,8 @@ class GoalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $response = $this->goalRepository->create($request->all());
+        return response()->json($response, 201);
     }
 
     /**
@@ -45,17 +43,6 @@ class GoalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Goal $goal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Goal  $goal
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Goal $goal)
     {
         //
     }

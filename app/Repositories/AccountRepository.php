@@ -16,17 +16,16 @@ class AccountRepository
     public function __construct(Account $model)
     {
         $this->model = $model;
-
     }
 
-    public function getAll()
+    public function show()
     {
-        return User::find(Auth::id())->accounts;
+        return User::find(Auth::id())->account;
     }
+
 
     public function create(array $data)
     {
-        $data["user_id"] = Auth::id();
         return $this->model->create($data);
     }
 

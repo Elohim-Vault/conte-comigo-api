@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gain extends Model
 {
+
+
     use HasFactory;
 
     protected $fillable = [
@@ -16,6 +18,12 @@ class Gain extends Model
         "value",
         "description",
     ];
+
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('d-m-Y');
+    }
 
     public function user()
     {

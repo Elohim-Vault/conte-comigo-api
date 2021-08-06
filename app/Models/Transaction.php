@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Expense extends Model
+class Transaction extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'value', 'description', 'status', 'deadline', 'recurrence_date'];
+    protected $fillable = ['user_id', 'recurrence_date', 'value', 'description'];
 
     protected function serializeDate(\DateTimeInterface $date)
     {

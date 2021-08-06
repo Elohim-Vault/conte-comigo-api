@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGainsTable extends Migration
+class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateGainsTable extends Migration
      */
     public function up()
     {
-        Schema::create('gains', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId("user_id")->constrained("users");
-            $table->date("receipt_date")->default(now());
             $table->date("recurrence_date")->nullable();
             $table->float("value");
             $table->string("description");
@@ -31,6 +30,6 @@ class CreateGainsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gains');
+        Schema::dropIfExists('transactions');
     }
 }

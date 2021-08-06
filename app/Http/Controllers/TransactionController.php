@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreGainRequest;
-use App\Models\Gain;
-use App\Repositories\GainRepository;
+use App\Http\Requests\StoreTransactionRequest;
+use App\Models\Transaction;
+use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
-
-class GainController extends Controller
+class TransactionController extends Controller
 {
-    private $gainRepository;
+    private $transactionRepository;
 
-    public function __construct(GainRepository $gainRepository)
+    public function __construct(TransactionRepository $transactionRepository)
     {
-        $this->gainRepository = $gainRepository;
+        $this->transactionRepository = $transactionRepository;
     }
 
     /**
@@ -22,9 +21,10 @@ class GainController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->gainRepository->paginate(10), 200);
+        $response = $this->transactionRepository->paginate($request->quantity);
+        return response()->json($response, 200);
     }
 
     /**
@@ -33,9 +33,9 @@ class GainController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreGainRequest $request)
+    public function store(StoreTransactionRequest $request)
     {
-        $gain = $this->gainRepository->create($request->all());
+        $gain = $this->transactionRepository->create($request->all());
         return response()->json($gain, 201);
     }
 
@@ -45,9 +45,10 @@ class GainController extends Controller
      * @param  \App\Models\Gain  $gain
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Gain $gain)
+    public function show(Transaction $gain)
     {
-        return response()->json($gain,200);
+        return response()->json($this->transactionRepository->sum_gain(), 200);
+//        return response()->json($gain, 200);
     }
 
     /**
@@ -68,9 +69,9 @@ class GainController extends Controller
      * @param  \App\Models\Gain  $gain
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Gain $gain)
+    public function destroy(Transaction $gain)
     {
-        $result = $this->gainRepository->destroy($gain);
+        $result = $this->transactionRepository->destroy($gain);
         return response()->json($result, 200);
     }
 
@@ -79,3 +80,4 @@ class GainController extends Controller
         dd(date('Y-m-d'));
     }
 }
+

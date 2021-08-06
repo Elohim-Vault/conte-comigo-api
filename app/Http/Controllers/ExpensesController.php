@@ -26,7 +26,7 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        return response()->json($this->expenseRepository->getAll(), 200);
+        return response()->json($this->expenseRepository->paginate(10), 200);
     }
 
     /**

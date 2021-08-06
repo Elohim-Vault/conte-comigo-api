@@ -25,9 +25,16 @@ class GainRepository
         return Auth::user()->gains;
     }
 
-    public function paginate() {
-        return $this->model->where('user_id', '=', User::id())->simplePaginate();
+    public function last_gains(int $quantity) {
+        return $this->model->latest()->take($quantity)->get();
     }
+
+    public function paginate(int $quantity)
+    {
+        return $this->model->where('user_id', '=', Auth::id())->simplePaginate($quantity);
+    }
+
+
     public function create(array $data)
     {
 
@@ -44,4 +51,6 @@ class GainRepository
         $gain->delete();
         return $newBalance;
     }
+
+
 }

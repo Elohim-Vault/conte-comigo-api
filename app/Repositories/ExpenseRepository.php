@@ -25,6 +25,9 @@ class ExpenseRepository
         return Auth::user()->expenses;
     }
 
+    public function last_expenses(int $quantity) {
+        return $this->model->latest()->take($quantity)->get();
+    }
 
     public function paginate(int $quantity) {
         return $this->model->where('user_id', '=', Auth::id())->simplePaginate($quantity);
