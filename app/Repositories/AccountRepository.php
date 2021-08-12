@@ -1,17 +1,15 @@
 <?php
 
-
 namespace App\Repositories;
 use App\Models\Account;
-use App\Models\Expense;
-use App\Models\Gain;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AccountRepository
 {
     private $model;
-
+    private $transactionRepository;
 
     public function __construct(Account $model)
     {

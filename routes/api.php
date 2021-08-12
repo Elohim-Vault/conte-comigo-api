@@ -19,7 +19,8 @@ use App\Http\Controllers\TransactionController;
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('transactions', TransactionController::class);
-    Route::apiResource('accounts', AccountController::class);
+    Route::apiResource('accounts', AccountController::class)->except('show');
+    Route::get('accounts/financial', [AccountController::class, 'financial_data']);
     Route::apiResource('goals', GoalController::class);
 });
 

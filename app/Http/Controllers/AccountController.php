@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAccountRequest;
 use App\Models\Account;
+use App\Models\Transaction;
 use App\Repositories\AccountRepository;
+use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -14,10 +16,12 @@ class AccountController extends Controller
      * @var AccountRepository
      */
     private $accountRepository;
+    private $transactionRepository;
 
     public function __construct(AccountRepository $accountRepository)
     {
         $this->accountRepository = $accountRepository;
+        $this->transactionRepository = new TransactionRepository(new Transaction());
     }
     /**
      * Display a listing of the resource.
@@ -41,17 +45,24 @@ class AccountController extends Controller
         return response()->json($account, 201);
     }
 
-
     /**
-     * Update the specified resource in storage.
+     * Return the financial data of an account..
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Account  $account
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Account $account)
+    public function financial_data(Request $request)
     {
-        //
+        $sum_gain = $this->transactionRepository->sum_gain($request->month);
+        $sum_expense = $this->transactionRepository->sum_expenses($request->month);
+        $savings = $sum_gain + $sum_expense;
+        $response = [
+            "gains" => $sum_gain,
+            "expenses" => $sum_expense,
+            "savings" => $savings
+        ];
+        return response()->json($response, 200);
     }
 
     /**

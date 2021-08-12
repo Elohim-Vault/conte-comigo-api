@@ -22,12 +22,11 @@ class TransactionRepository
         $this->accountRepository = new AccountRepository(new Account());
     }
 
-    public function paginate(int $quantity) {
-        return $this->model->where('user_id', '=', Auth::id())->simplePaginate($quantity);
-    }
+    public function paginate(int $quantity, int $month = null) {
+        $query = $this->model->where('user_id', '=', Auth::id());
+        $query = $query->whereMonth('created_at', '=' , $month);
 
-    public function last_gains(int $quantity) {
-        return $this->model->latest()->take($quantity)->get();
+        return $query->orderBy('id', 'desc')->simplePaginate($quantity);
     }
 
     public function create(array $data)
@@ -49,27 +48,29 @@ class TransactionRepository
 
     public function sum_gain(int $month = null): int
     {
-        if ($month)
+        if ($month == null)
         {
-            $sum = 0;
+            $month = date('m');
         }
-        else
-        {
-            $sum = Auth::user()->transactions->where('value', '>', '0')->sum('value');
-        }
+        $sum = $this->model->where('user_id', '=', Auth::id())
+        ->whereMonth('created_at', '=' , $month)
+        ->where('value', '>', '0')
+        ->sum('value');
+
         return $sum;
     }
 
     public function sum_expenses(int $month = null): int
     {
-        if ($month)
+        if ($month == null)
         {
-            $sum = 0;
+            $month = date('m');
         }
-        else
-        {
-            $sum = Auth::user()->transactions->where('value', '<', '0')->sum('value');
-        }
+        $sum = $this->model->where('user_id', '=', Auth::id())
+        ->whereMonth('created_at', '=' , $month)
+        ->where('value', '<', '0')
+        ->sum('value');
+
         return $sum;
     }
 

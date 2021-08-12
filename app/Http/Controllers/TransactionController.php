@@ -23,7 +23,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $response = $this->transactionRepository->paginate($request->quantity);
+        $response = $this->transactionRepository->paginate($request->quantity, $request->month);
         return response()->json($response, 200);
     }
 
