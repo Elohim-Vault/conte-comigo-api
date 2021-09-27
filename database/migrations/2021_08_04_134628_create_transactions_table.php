@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users");
             $table->date("recurrence_date")->nullable();
-            $table->float("value");
+            $table->decimal("value", 9, 3);
             $table->string("description");
             $table->timestamps();
         });

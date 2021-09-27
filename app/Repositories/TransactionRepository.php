@@ -31,7 +31,6 @@ class TransactionRepository
 
     public function create(array $data)
     {
-
         $data["user_id"] = Auth::id();
         $accountData = $this->accountRepository->increment($data['value']);
         $transactionData = $this->model->create($data);

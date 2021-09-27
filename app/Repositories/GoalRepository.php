@@ -26,16 +26,17 @@ class GoalRepository
         return $this->model->create($data);
     }
 
-    public function show(Goal $goal)
-    {
 
+
+    public function update_currente_value($goal)
+    {
+        return $this->model->where('user_id', '=', Auth::id())
+        ->where("id", $goal->id)
+        ->increment('current_value', $value);
     }
+
     public function paginate(int $quantity)
     {
-        return $this->model->where('user_id', '=', Auth::id())->simplePaginate($quantity);
+        return $this->model->where('user_id', '=', Auth::id())->orderBy('deadline', 'ASC')->simplePaginate($quantity);
     }
-
-
-
-
 }

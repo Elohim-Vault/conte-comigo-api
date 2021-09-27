@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransactionRequest;
+use App\Models\Goal;
 use App\Models\Transaction;
+use App\Repositories\GoalRepository;
 use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     private $transactionRepository;
+    private $goalRepository;
 
     public function __construct(TransactionRepository $transactionRepository)
     {
         $this->transactionRepository = $transactionRepository;
+        $this->goalRepository = new GoalRepository(new Goal());
     }
 
     /**

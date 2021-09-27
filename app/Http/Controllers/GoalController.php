@@ -3,24 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Goal;
+use App\Models\Transaction;
 use App\Repositories\GoalRepository;
+use App\Repositories\TransactionRepository;
 use Illuminate\Http\Request;
 
 class GoalController extends Controller
 {
     private $goalRepository;
+    private $transactionRepository;
 
     public function __construct(GoalRepository $goalRepository) {
         $this->goalRepository = $goalRepository;
+        $this->transactionRepository = new TransactionRepository(new Transaction());
     }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->goalRepository->paginate(5), 200);
+        return response()->json($this->goalRepository->paginate($request->quantity), 200);
     }
 
 
@@ -28,7 +32,7 @@ class GoalController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -56,7 +60,8 @@ class GoalController extends Controller
      */
     public function update(Request $request, Goal $goal)
     {
-        //
+        $goal->update($request->all());
+        return $goal;
     }
 
     /**

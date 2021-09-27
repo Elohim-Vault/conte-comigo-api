@@ -20,6 +20,7 @@ class CreateGoalsTable extends Migration
             $table->date("deadline");
             $table->float("value");
             $table->float("current_value")->default(0);
+            $table->boolean("done")->default(0);
             $table->timestamps();
         });
     }
