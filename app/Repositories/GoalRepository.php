@@ -37,6 +37,10 @@ class GoalRepository
 
     public function paginate(int $quantity)
     {
-        return $this->model->where('user_id', '=', Auth::id())->orderBy('deadline', 'ASC')->simplePaginate($quantity);
+        return $this->model->where('user_id', '=', Auth::id())
+                            ->where('done', '=', 0)
+                            ->orderBy('deadline', 'ASC')
+                            ->simplePaginate($quantity);
+                            
     }
 }

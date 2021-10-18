@@ -65,6 +65,11 @@ class AccountController extends Controller
         return response()->json($response, 200);
     }
 
+    public function update(Request $request, Account $account) 
+    {
+        $account->update($request->all());
+        return $account;
+    }
     /**
      * Remove the specified resource from storage.
      *
