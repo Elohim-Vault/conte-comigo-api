@@ -1,12 +1,10 @@
 # NodeJS URL shortener
 
 ## 🔧 Technologies
-- EJS
-- Nodemon
-- MongoDB
-- Mongoose
-- Express
-- NodeJS
+- Laravel
+- MySQL
+- Sanctum
+- Carbon
 
 ## 💻 How to run the project
 1. Clone the repository
